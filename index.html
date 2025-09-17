@@ -16,10 +16,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
       min-height: 100vh;
       padding: 2rem;
-      position: relative;
     }
     h1 {
       font-size: clamp(2rem, 5vw, 2.5rem);
@@ -31,42 +29,56 @@
       max-width: 600px;
       text-align: center;
       font-size: 1.1rem;
-      color: #333;
+      color: #444;
       margin-bottom: 2rem;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+
+    /* Masonry container */
+    .masonry {
+      column-count: 2;
+      column-gap: 1rem;
       max-width: 800px;
       width: 100%;
-      font-weight: 400;
     }
+
+    @media (max-width: 767px) {
+      .masonry {
+        column-count: 1;
+      }
+    }
+
     .card {
+      display: inline-block; /* important for masonry */
       background: #fff;
       padding: 1rem 1.5rem;
       border-radius: 1rem;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       font-size: 1.1rem;
-      color: #333;
-      transition: transform 0.2s, box-shadow 0.2s;
+      color: #222;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.4s ease;
       cursor: pointer;
       opacity: 0;
-      transform: translateY(10px);
-      animation: fadeUp 0.4s ease forwards;
-      width: 100%;
-      box-sizing: border-box;
+      animation: fadeIn 0.5s forwards;
+      margin-bottom: 1rem;
+      width: 100%; /* makes them align inside column */
     }
     .card:hover {
       transform: translateY(-4px);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
     }
-    @keyframes fadeUp {
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
+
+    /* Buttons */
     .button {
       margin-top: 2rem;
       padding: 0.6rem 1.5rem;
@@ -84,18 +96,13 @@
     .button:hover {
       background: #7c3aed;
     }
+
     #shuffleButton {
       position: fixed;
       top: 1rem;
       right: 1rem;
-      padding: 0.4rem 1rem;
-      font-size: 0.9rem;
-      background: #10b981;
-      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+      margin: 0;
       z-index: 1000;
-    }
-    #shuffleButton:hover {
-      background: #059669;
     }
   </style>
 </head>
@@ -105,7 +112,7 @@
     Welcome to my status archive! More on this site coming soon... (unless I procrastinate)
   </p>
 
-  <div class="grid" id="statusGrid"></div>
+  <div class="masonry" id="statusGrid"></div>
 
   <button class="button" id="toggleButton">Expand</button>
   <button class="button" id="shuffleButton">Shuffle</button>
@@ -146,6 +153,7 @@
     const grid = document.getElementById("statusGrid");
     const toggleButton = document.getElementById("toggleButton");
     const shuffleButton = document.getElementById("shuffleButton");
+
     let showAll = false;
 
     function shuffle(array) {
@@ -162,7 +170,7 @@
       visibleStatuses.forEach((status, index) => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.animationDelay = `${index * 0.05}s`;
+        card.style.animationDelay = `${index * 0.05}s`; // stagger fade-in
         card.textContent = status;
         grid.appendChild(card);
       });
@@ -179,6 +187,7 @@
       render();
     });
 
+    // Initial render
     shuffle(statuses);
     render();
   </script>
