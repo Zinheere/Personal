@@ -83,35 +83,60 @@
     Welcome to my status archive! More on this site coming soon... (unless I procrastinate)
   </p>
 
-  <div class="grid" id="statusGrid">
-    <div class="card">🌙  just vibing late night</div>
-    <div class="card">📚  grinding school work</div>
-    <div class="card">🎮  playing too much Valorant</div>
-    <div class="card">☕  coffee = life</div>
-  </div>
+  <div class="grid" id="statusGrid"></div>
 
   <button class="button" id="toggleButton">Expand</button>
 
   <script>
     const statuses = [
-      "🌙 just vibing late night",
-      "📚 grinding school work",
-      "🎮 playing too much Valorant",
-      "☕ coffee = life",
-      "🛠️ coding until 3am",
-      "✨ being delulu rn",
-      "🎧 looping that one song again",
-      "🐸 frog gifs are peak comedy"
+      "Mending a mirror of your own beliefs...",
+      "Fulfilling the backwards lie...",
+      "Providing a common enemy...",
+      "Back in time...",
+      "Restarting something that never stopped...",
+      "When you don't want the horse to be dead...",
+      "To create fiction you wish to be a reflection...",
+      "The hardest thing you work for is regret…",
+      "Peace is made, not found...",
+      "The loudest thing you hear is your echo...",
+      "When you don’t want the horse to be dead…",
+      "Pushing against yourself pushes others away...",
+      "The greatest fight is against yourself...",
+      "The existence of nothing is the hardest to accept...",
+      "The smallest things that make you stop...",
+      "The biggest change is the lack of something...",
+      "The outlier is the one that wants others to follow...",
+      "The length one goes through not to be underestimated...",
+      "Changing is simply a matter of nuances...",
+      "What defines a life worth living...",
+      "Actions can have delayed responses...",
+      "To wrong is not to be wronged against...",
+      "All methods in which is impractical...",
+      "Over the above under...",
+      "The symbolism of symbols...",
+      "Phophecy is not the epitome nor an epiphany...",
+      "The perspectives of ethicality...",
+      "People who see arent meant to be seen...",
+      "To be someone who hasn't been themselves…"
     ];
 
     const grid = document.getElementById("statusGrid");
     const button = document.getElementById("toggleButton");
     let showAll = false;
 
-    button.addEventListener("click", () => {
-      showAll = !showAll;
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    shuffle(statuses);
+
+    function render() {
       grid.innerHTML = "";
-      const visibleStatuses = showAll ? statuses : statuses.slice(0, 4);
+      const visibleStatuses = showAll ? statuses : statuses.slice(0, 6);
       visibleStatuses.forEach(status => {
         const card = document.createElement("div");
         card.className = "card";
@@ -119,7 +144,14 @@
         grid.appendChild(card);
       });
       button.textContent = showAll ? "Hide" : "Expand";
+    }
+
+    button.addEventListener("click", () => {
+      showAll = !showAll;
+      render();
     });
+
+    render();
   </script>
 </body>
 </html>
