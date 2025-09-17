@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="webicon.png">
+  <link rel="icon" type="image/png" href="/images/webicon.png">
   <title>welcome to zin</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap');
@@ -16,7 +16,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       min-height: 100vh;
       padding: 2rem;
       position: relative;
@@ -36,12 +36,17 @@
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+      grid-template-columns: 1fr;
       gap: 1rem;
       max-width: 800px;
       width: 100%;
       font-weight: 400;
-      justify-content: center;
+      justify-items: center;
+    }
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, auto);
+      }
     }
     .card {
       background: #fff;
@@ -55,6 +60,8 @@
       opacity: 0;
       transform: translateY(10px);
       animation: fadeUp 0.4s ease forwards;
+      width: auto;
+      max-width: 100%;
     }
     .card:hover {
       transform: translateY(-4px);
@@ -84,13 +91,14 @@
       background: #7c3aed;
     }
     #shuffleButton {
-      position: absolute;
+      position: fixed;
       top: 1rem;
       right: 1rem;
       padding: 0.4rem 1rem;
       font-size: 0.9rem;
       background: #10b981;
       box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+      z-index: 1000;
     }
     #shuffleButton:hover {
       background: #059669;
