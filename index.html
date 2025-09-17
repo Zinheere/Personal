@@ -36,17 +36,11 @@
     }
     .grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
       max-width: 800px;
       width: 100%;
       font-weight: 400;
-      justify-items: center;
-    }
-    @media (min-width: 768px) {
-      .grid {
-        grid-template-columns: repeat(2, auto);
-      }
     }
     .card {
       background: #fff;
@@ -60,8 +54,8 @@
       opacity: 0;
       transform: translateY(10px);
       animation: fadeUp 0.4s ease forwards;
-      width: auto;
-      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
     .card:hover {
       transform: translateY(-4px);
