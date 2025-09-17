@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>welcome to zin</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: "Fira Sans", sans-serif;
+      font-weight: 500;
+      background: linear-gradient(to bottom, #f3e8ff, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    p.intro {
+      max-width: 600px;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      max-width: 800px;
+      width: 100%;
+      font-weight: 400;
+    }
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .card {
+      background: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      font-size: 1.1rem;
+      color: #444;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    }
+    .button {
+      margin-top: 2rem;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+      transition: background 0.2s;
+      font-family: "Fira Sans", sans-serif;
+      font-weight: 500;
+    }
+    .button:hover {
+      background: #7c3aed;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hey, I'm Zin 👋</h1>
+  <p class="intro">
+    Welcome to my status archive! More on this site coming soon... (unless I procrastinate)
+  </p>
+
+  <div class="grid" id="statusGrid">
+    <div class="card">🌙  just vibing late night</div>
+    <div class="card">📚  grinding school work</div>
+    <div class="card">🎮  playing too much Valorant</div>
+    <div class="card">☕  coffee = life</div>
+  </div>
+
+  <button class="button" id="toggleButton">Expand</button>
+
+  <script>
+    const statuses = [
+      "🌙 just vibing late night",
+      "📚 grinding school work",
+      "🎮 playing too much Valorant",
+      "☕ coffee = life",
+      "🛠️ coding until 3am",
+      "✨ being delulu rn",
+      "🎧 looping that one song again",
+      "🐸 frog gifs are peak comedy"
+    ];
+
+    const grid = document.getElementById("statusGrid");
+    const button = document.getElementById("toggleButton");
+    let showAll = false;
+
+    button.addEventListener("click", () => {
+      showAll = !showAll;
+      grid.innerHTML = "";
+      const visibleStatuses = showAll ? statuses : statuses.slice(0, 4);
+      visibleStatuses.forEach(status => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.textContent = status;
+        grid.appendChild(card);
+      });
+      button.textContent = showAll ? "Hide" : "Expand";
+    });
+  </script>
+</body>
+</html>
