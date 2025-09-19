@@ -18,14 +18,14 @@
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      padding: 2rem;
+      padding: 4rem 2rem 2rem; /* more space at the top */
     }
 
     h1 {
       font-size: 2.5rem;
       font-weight: bold;
       color: #333;
-      margin-bottom: 0.5rem;
+      margin: 0 0 0.5rem 0;
     }
 
     p.intro {
@@ -36,29 +36,40 @@
       margin-bottom: 2rem;
     }
 
-    /* Replace column layout with CSS Grid */
+    /* Masonry layout using CSS columns */
     .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      column-count: 2;
+      column-gap: 1rem;
       max-width: 800px;
       width: 100%;
+      column-fill: auto; /* helps columns fill predictably */
     }
 
     @media (max-width: 768px) {
       .grid {
-        grid-template-columns: 1fr; /* single column on small screens */
+        column-count: 1;
       }
     }
 
     .card {
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      margin: 0;         /* grid gap handles spacing */
+      background: #ffffff; /* white background for cards */
       padding: 1rem 1.5rem;
       border-radius: 1rem;
       box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      font-size: 1.1rem;
+      color: #444;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 1rem;
+
+      /* Masonry-friendly rules */
+      display: inline-block;               /* plays nicely in column layout */
+      width: 100%;                         /* fill the column width */
+      box-sizing: border-box;              /* include padding in width */
+      break-inside: avoid-column;          /* modern browsers */
+      -webkit-column-break-inside: avoid;  /* Safari / WebKit */
+      -moz-column-break-inside: avoid;     /* older Firefox */
+      page-break-inside: avoid;            /* printing fallback */
+
       opacity: 0;
       animation: fadeIn 0.6s ease forwards;
     }
