@@ -11,7 +11,8 @@ body {
     align-items: center;
     justify-content: center; /* center vertically */
     min-height: 100vh;
-    padding: 2rem; /* equal spacing all around */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     text-align: center; /* center text */
 }
 
