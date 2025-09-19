@@ -9,37 +9,37 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* center vertically */
-    min-height: 100vh;
-    padding: 2%; /* equal spacing */
-    text-align: center; /* center text */
+    justify-content: center;
+    min-height: 100%;
+    padding: 2%;
+    text-align: center;
 }
 
 h1 {
-    font-size: 6vw; /* scale heading with viewport width */
+    font-size: 10%; /* heading scales with viewport width */
     font-weight: bold;
     color: #333;
-    margin: 0 0 1vh 0;
+    margin: 0 0 1%;
 }
 
 p.intro {
-    max-width: 70vw; /* take around 70% of viewport width */
-    font-size: 2vw; /* scale font with viewport width */
+    max-width: 70%; /* approximately 70% of viewport width */
+    font-size: 4%;
     color: #555;
-    margin-bottom: 2vh;
+    margin-bottom: 2%;
 }
 
 /* archive button */
 .button {
-    margin-top: 1vh;
-    padding: 1vh 2vw; /* scale padding */
-    font-size: 2vw;
+    margin-top: 1%;
+    padding: 2% 5%; /* scaled padding */
+    font-size: 4%;
     background: #8b5cf6;
     color: white;
     border: none;
-    border-radius: 2vh;
+    border-radius: 4%;
     cursor: pointer;
-    box-shadow: 0 0.6vh 1.4vh rgba(139, 92, 246, 0.3);
+    box-shadow: 0 1% 2% rgba(139, 92, 246, 0.3);
     transition: background 0.2s, transform 0.2s;
     font-family: "Fira Sans", sans-serif;
     font-weight: 600;
@@ -47,7 +47,7 @@ p.intro {
 
 .button:hover {
     background: #7c3aed;
-    transform: translateY(-0.2vh);
+    transform: translateY(-0.5%);
 }
 
 .holder {
@@ -57,14 +57,14 @@ p.intro {
 
 @media (max-width: 600px) {
     h1 {
-        font-size: 8vw;
+        font-size: 12%;
     }
     p.intro {
-        font-size: 3.5vw;
-        max-width: 90vw;
+        font-size: 5%;
+        max-width: 90%;
     }
     .button {
-        font-size: 4vw;
-        padding: 2vw 4vw;
+        font-size: 5%;
+        padding: 3% 6%;
     }
 }
