@@ -37,26 +37,27 @@
       margin-bottom: 2rem;
     }
 
-    /* masonry using CSS columns (2 columns on wide screens) */
+    /* masonry using two flex columns (JS distributes cards by height) */
     .grid {
-      column-count: 2;
-      column-gap: 1rem;
-      max-width: 1100px; /* increase so 2 columns have room on bigger screens */
+      display: flex;
+      gap: 1rem;
+      max-width: 1100px;
       width: 100%;
-      column-fill: auto; /* attempt to distribute content predictably */
-      /* outline: 1px dashed rgba(0,0,0,0.06);  <-- enable to debug container width */
+      align-items: flex-start;
     }
 
-    @media (max-width: 1100px) {
-      /* keeps two columns for medium screens, but switch to 1 at small widths */
-      .grid {
-        column-count: 2;
-      }
+    .col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      /* Prevent children from stretching weirdly */
+      align-items: stretch;
     }
 
     @media (max-width: 768px) {
       .grid {
-        column-count: 1;
+        flex-direction: column; /* single column on small screens */
       }
     }
 
@@ -67,37 +68,20 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.08);
       font-size: 1.1rem;
       color: #444;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin: 0 0 1rem 0;
-
-      /* IMPORTANT: make cards behave properly inside columns */
-      display: inline-block;           /* allow column flow */
-      vertical-align: top;             /* avoid baseline spacing that can collapse columns */
-      width: 100%;                     /* fill the column's width */
-      box-sizing: border-box;          /* include padding in width */
-      break-inside: avoid-column;      /* prevent splitting across columns */
-      -webkit-column-break-inside: avoid;
-      -moz-column-break-inside: avoid;
-      page-break-inside: avoid;
-
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.25s;
+      box-sizing: border-box;
       opacity: 0;
-      animation: fadeIn 0.45s ease forwards;
+      transform: translateY(10px);
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .card:hover {
       transform: translateY(-4px);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     .button {
@@ -148,7 +132,11 @@
     Welcome to my status archive! More on this site coming soon... (unless I procrastinate)
   </p>
 
-  <div class="grid" id="statusGrid"></div>
+  <!-- two columns: JS will put cards into the shorter column to simulate masonry -->
+  <div class="grid" id="statusGrid">
+    <div class="col" id="colLeft"></div>
+    <div class="col" id="colRight"></div>
+  </div>
 
   <button class="button" id="toggleButton">Expand</button>
   <button class="shuffle-button" id="shuffleButton">Shuffle</button>
@@ -186,14 +174,18 @@
       "To be someone who hasn't been themselves…"
     ];
 
-    const grid = document.getElementById("statusGrid");
-    const toggleButton = document.getElementById("toggleButton");
-    const shuffleButton = document.getElementById("shuffleButton");
-    let showAll = false;
+    const colLeft = document.getElementById('colLeft');
+    const colRight = document.getElementById('colRight');
+    const toggleButton = document.getElementById('toggleButton');
+    const shuffleButton = document.getElementById('shuffleButton');
 
-    function shuffle(array) {
-      // non-mutating shuffle: return a new shuffled copy
-      const copy = array.slice();
+    let showAll = false;
+    // keep a current order so Expand/Hide shows the same set until reshuffle
+    let currentOrder = statuses.slice();
+
+    // Non-mutating Fisher-Yates shuffle (returns new array)
+    function shuffleArray(arr) {
+      const copy = arr.slice();
       for (let i = copy.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [copy[i], copy[j]] = [copy[j], copy[i]];
@@ -201,34 +193,64 @@
       return copy;
     }
 
-    let currentOrder = statuses.slice();
-
-    function render() {
-      grid.innerHTML = "";
-      const visibleStatuses = showAll ? currentOrder : currentOrder.slice(0, 6);
-      visibleStatuses.forEach((status, index) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.style.animationDelay = `${index * 0.05}s`;
-        card.textContent = status;
-        grid.appendChild(card);
-      });
-      toggleButton.textContent = showAll ? "Hide" : "Expand";
+    // create a card element
+    function makeCard(text, delayIndex) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = text;
+      // use a slight stagger for reveal
+      setTimeout(() => card.classList.add('show'), 20 + delayIndex * 45);
+      return card;
     }
 
-    toggleButton.addEventListener("click", () => {
+    // returns the column element with the smaller height (to balance)
+    function shorterColumn() {
+      // on very small screens columns stack; fallback to left
+      if (getComputedStyle(document.querySelector('.grid')).flexDirection === 'column') {
+        return colLeft;
+      }
+      // use scrollHeight to measure contents
+      return (colLeft.scrollHeight <= colRight.scrollHeight) ? colLeft : colRight;
+    }
+
+    function clearColumns() {
+      colLeft.innerHTML = '';
+      colRight.innerHTML = '';
+    }
+
+    function render() {
+      clearColumns();
+      const visible = showAll ? currentOrder : currentOrder.slice(0, 6);
+
+      // append each card to the currently shorter column for masonry balance
+      visible.forEach((text, i) => {
+        const card = makeCard(text, i);
+        shorterColumn().appendChild(card);
+      });
+
+      toggleButton.textContent = showAll ? 'Hide' : 'Expand';
+    }
+
+    toggleButton.addEventListener('click', () => {
       showAll = !showAll;
       render();
     });
 
-    shuffleButton.addEventListener("click", () => {
-      currentOrder = shuffle(statuses);
+    shuffleButton.addEventListener('click', () => {
+      currentOrder = shuffleArray(statuses);
       render();
     });
 
     // initialize
-    currentOrder = shuffle(statuses);
+    currentOrder = shuffleArray(statuses);
     render();
+
+    // On window resize, re-render to rebalance columns
+    window.addEventListener('resize', () => {
+      // small debounce
+      clearTimeout(window._zinResize);
+      window._zinResize = setTimeout(render, 120);
+    });
   </script>
 </body>
 </html>
