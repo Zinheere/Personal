@@ -26,12 +26,12 @@ p.intro {
     text-align: center;
     font-size: 1.4rem; /* larger intro text */
     color: #555;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 /* archive button */
 .button {
-    margin-top: 2rem;
+    margin-top: 1rem;
     padding: 1rem 2.5rem; /* larger button */
     font-size: 1.25rem; /* bigger font */
     background: #8b5cf6;
