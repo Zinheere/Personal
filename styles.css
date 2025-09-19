@@ -9,9 +9,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center; /* center vertically */
     min-height: 100vh;
-    padding: 8rem 2rem 2rem;
+    padding: 2rem; /* equal spacing all around */
+    text-align: center; /* center text */
 }
 
 h1 {
@@ -23,10 +24,9 @@ h1 {
 
 p.intro {
     max-width: 700px;
-    text-align: center;
     font-size: 1.4rem; /* larger intro text */
     color: #555;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 /* archive button */
