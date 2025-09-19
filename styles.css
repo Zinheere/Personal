@@ -26,7 +26,7 @@ p.intro {
     text-align: center;
     font-size: 1.4rem; /* larger intro text */
     color: #555;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
 }
 
 /* archive button */
@@ -48,6 +48,11 @@ p.intro {
 .button:hover {
     background: #7c3aed;
     transform: translateY(-2px);
+}
+
+.holder {
+    display: flex;
+    justify-content: center;
 }
 
 @media (max-width: 600px) {
