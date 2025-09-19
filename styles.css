@@ -16,7 +16,7 @@ body {
 }
 
 h1 {
-    font-size: 5.5rem;
+    font-size: 6rem;
     font-weight: bold;
     color: #333;
     margin: 0 0 1rem 0;
@@ -24,7 +24,7 @@ h1 {
 
 p.intro {
     max-width: 700px;
-    font-size: 3.5rem;
+    font-size: 2rem;
     color: #555;
     margin-bottom: 2rem;
 }
@@ -32,7 +32,7 @@ p.intro {
 .button {
     margin-top: 1rem;
     padding: 1rem 2.5rem;
-    font-size: 3.5rem;
+    font-size: 2rem;
     background: #8b5cf6;
     color: white;
     border: none;
