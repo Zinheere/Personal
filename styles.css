@@ -29,45 +29,45 @@ p.intro {
     margin-bottom: 2rem;
 }
 
-.button {
-    margin-top: 1rem;
-    padding: 1rem 2.5rem;
-    font-size: 1.5rem;
-    background: #8b5cf6;
-    color: white;
-    border: none;
-    border-radius: 2rem;
-    cursor: pointer;
-    box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
-    transition: background 0.2s, transform 0.2s;
-    font-family: "Fira Sans", sans-serif;
-    font-weight: 600;
-}
-
-.button:hover {
-    background: #7c3aed;
-    transform: translateY(-2px);
-}
-
 .holder {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem; /* space between buttons */
+    flex-wrap: wrap; /* keeps buttons aligned on small screens */
 }
 
+/* Common button styles */
+.button,
 .social-button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 4rem;
-    height: 4rem;
+    height: 4rem; /* uniform height */
+    min-width: 4rem; /* ensures social buttons are not too small */
+    padding: 0 1.5rem; /* horizontal padding for text button */
+    font-size: 1.5rem;
     background: #8b5cf6;
-    border-radius: 50%;
+    color: white;
+    border: none;
     box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
     transition: background 0.2s, transform 0.2s;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 600;
     cursor: pointer;
-    text-decoration: none;
+    text-decoration: none; /* for social links */
+}
+
+/* Main button roundness */
+.button {
+    border-radius: 2rem; /* pill shape */
+}
+
+/* Social buttons */
+.social-button {
+    width: 4rem; /* ensures perfect circle */
+    border-radius: 50%; /* fully circular */
+    padding: 0; /* no extra padding */
 }
 
 .social-button img {
@@ -75,13 +75,23 @@ p.intro {
     height: 50%;
 }
 
+/* Hover effects */
+.button:hover,
 .social-button:hover {
     background: #7c3aed;
     transform: translateY(-2px);
 }
 
+/* Responsive for smaller screens */
 @media (max-width: 600px) {
+    .button,
+    .social-button {
+        height: 3.5rem;
+        font-size: 1.2rem;
+        width: 3.5rem; /* ensures circular buttons scale down */
+    }
+
     .button {
-        padding: 0.8rem 2rem;
+        padding: 0 1rem;
     }
 }
