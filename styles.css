@@ -33,7 +33,7 @@ p.intro {
 .button {
     margin-top: 1vh;
     padding: 1vh 2vw; /* scale padding */
-    font-size: 1.5vw; /* scale button font */
+    font-size: 2vw;
     background: #8b5cf6;
     color: white;
     border: none;
