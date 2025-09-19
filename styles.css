@@ -95,6 +95,35 @@ p.intro {
     background: #7c3aed;
 }
 
+.back-button {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    transition: background 0.2s;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 500;
+    z-index: 1000;
+}
+
+.back-button:hover {
+    background: #2563eb;
+}
+
+@media (max-width: 500px) {
+    .back-button {
+        position: static;
+        margin-top: 1rem;
+    }
+}
+
 .shuffle-button {
     position: fixed;
     top: 2rem;

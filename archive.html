@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" type="image/png" href="webicon.png"/>
+        <link rel="stylesheet" type="text/css" href="styles.css"/>
+        <title>zin's article archive</title>
+        <style>
+          
+        </style>
+    </head>
+    <body>
+        <h1>Status Archive 📜</h1>
+        <p class="intro">
+            All of my statuses are original! (with their own stories of course...)
+        </p>
+
+        <!-- Back button -->
+        <button class="back-button" onclick="location.href='index.html'">⬅ Back</button>
+
+        <!-- two columns: JS will put cards into the shorter column to simulate masonry -->
+        <div class="grid" id="statusGrid">
+            <div class="col" id="colLeft"></div>
+            <div class="col" id="colRight"></div>
+        </div>
+
+        <button class="button" id="toggleButton">Expand</button>
+        <button class="shuffle-button" id="shuffleButton">Shuffle</button>
+
+        <script>
+            const statuses = [
+                "Mending a mirror of your own beliefs...",
+                "Fulfilling the backwards lie...",
+                "Providing a common enemy...",
+                "Back in time...",
+                "Restarting something that never stopped...",
+                "When you don't want the horse to be dead...",
+                "To create fiction you wish to be a reflection...",
+                "The hardest thing you work for is regret…",
+                "Peace is made, not found...",
+                "The loudest thing you hear is your echo...",
+                "When you don't want the horse to be dead…",
+                "Pushing against yourself pushes others away...",
+                "The greatest fight is against yourself...",
+                "The existence of nothing is the hardest to accept...",
+                "The smallest things that make you stop...",
+                "The biggest change is the lack of something...",
+                "The outlier is the one that wants others to follow...",
+                "The length one goes through not to be underestimated...",
+                "Changing is simply a matter of nuances...",
+                "What defines a life worth living...",
+                "Actions can have delayed responses...",
+                "To wrong is not to be wronged against...",
+                "All methods in which is impractical...",
+                "Over the above under...",
+                "The symbolism of symbols...",
+                "Phophecy is not the epitome nor an epiphany...",
+                "The perspectives of ethicality...",
+                "People who see arent meant to be seen...",
+                "To be someone who hasn't been themselves…",
+              ];
+
+              const colLeft = document.getElementById("colLeft");
+              const colRight = document.getElementById("colRight");
+              const toggleButton = document.getElementById("toggleButton");
+              const shuffleButton = document.getElementById("shuffleButton");
+
+              let showAll = false;
+              let currentOrder = shuffle(statuses);
+
+              function shuffle(arr) {
+                return arr
+                  .map(v => [Math.random(), v])
+                  .sort((a, b) => a[0] - b[0])
+                  .map(x => x[1]);
+              }
+
+              function render() {
+                colLeft.innerHTML = colRight.innerHTML = "";
+
+                const visible = showAll ? currentOrder : currentOrder.slice(0, 6);
+
+                visible.forEach((text, i) => {
+                  const card = document.createElement("div");
+                  card.className = "card";
+                  card.textContent = text;
+
+                  // pick shorter column (fallback to left on stacked layout)
+                  const grid = document.querySelector(".grid");
+                  const target =
+                    getComputedStyle(grid).flexDirection === "column" ||
+                    colLeft.scrollHeight <= colRight.scrollHeight
+                      ? colLeft
+                      : colRight;
+
+                  target.appendChild(card);
+
+                  setTimeout(() => card.classList.add("show"), 20 + i * 45);
+                });
+
+                toggleButton.textContent = showAll ? "Hide" : "Expand";
+              }
+
+              toggleButton.onclick = () => {
+                showAll = !showAll;
+                render();
+              };
+
+              shuffleButton.onclick = () => {
+                currentOrder = shuffle(statuses);
+                render();
+              };
+
+              // initial render
+              render();
+
+              // debounce resize
+              let resizeTimer;
+              window.onresize = () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(render, 120);
+              };
+        </script>
+    </body>
+</html>
