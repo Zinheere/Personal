@@ -1,256 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="webicon.png">
-  <title>welcome to zin</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" type="image/png" href="webicon.png"/>
+        <link rel="stylesheet" type="text/css" href="styles.css"/>
+        <title>welcome to zin</title>
+    </head>
+    <body>
+        <h1>Hey, I'm Zin 👋</h1>
+        <p class="intro">
+            Welcome to my status archive! More on this site coming soon...
+            (unless I procrastinate)
+        </p>
 
-    /* page */
-    body {
-      margin: 0;
-      font-family: "Fira Sans", sans-serif;
-      font-weight: 500;
-      background: linear-gradient(to bottom, #e6cfff, #ffffff);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding: 8rem 2rem 2rem; /* more space at the top */
-    }
+        <!-- two columns: JS will put cards into the shorter column to simulate masonry -->
+        <div class="grid" id="statusGrid">
+            <div class="col" id="colLeft"></div>
+            <div class="col" id="colRight"></div>
+        </div>
 
-    h1 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #333;
-      margin: 0 0 0.5rem 0;
-    }
+        <button class="button" id="toggleButton">Expand</button>
+        <button class="shuffle-button" id="shuffleButton">Shuffle</button>
 
-    p.intro {
-      max-width: 600px;
-      text-align: center;
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 2rem;
-    }
+        <script>
+            const statuses = [
+                "Mending a mirror of your own beliefs...",
+                "Fulfilling the backwards lie...",
+                "Providing a common enemy...",
+                "Back in time...",
+                "Restarting something that never stopped...",
+                "When you don't want the horse to be dead...",
+                "To create fiction you wish to be a reflection...",
+                "The hardest thing you work for is regret…",
+                "Peace is made, not found...",
+                "The loudest thing you hear is your echo...",
+                "When you don't want the horse to be dead…",
+                "Pushing against yourself pushes others away...",
+                "The greatest fight is against yourself...",
+                "The existence of nothing is the hardest to accept...",
+                "The smallest things that make you stop...",
+                "The biggest change is the lack of something...",
+                "The outlier is the one that wants others to follow...",
+                "The length one goes through not to be underestimated...",
+                "Changing is simply a matter of nuances...",
+                "What defines a life worth living...",
+                "Actions can have delayed responses...",
+                "To wrong is not to be wronged against...",
+                "All methods in which is impractical...",
+                "Over the above under...",
+                "The symbolism of symbols...",
+                "Phophecy is not the epitome nor an epiphany...",
+                "The perspectives of ethicality...",
+                "People who see arent meant to be seen...",
+                "To be someone who hasn't been themselves…",
+              ];
 
-    /* masonry using two flex columns (JS distributes cards by height) */
-    .grid {
-      display: flex;
-      gap: 1rem;
-      max-width: 800px;
-      width: 95%;
-      align-items: flex-start;
-    }
+              const colLeft = document.getElementById("colLeft");
+              const colRight = document.getElementById("colRight");
+              const toggleButton = document.getElementById("toggleButton");
+              const shuffleButton = document.getElementById("shuffleButton");
 
-    .col {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      /* Prevent children from stretching weirdly */
-      align-items: stretch;
-    }
+              let showAll = false;
+              let currentOrder = shuffle(statuses);
 
-    @media (max-width: 768px) {
-      .grid {
-        flex-direction: column; /* single column on small screens */
-      }
-    }
+              function shuffle(arr) {
+                return arr
+                  .map(v => [Math.random(), v])
+                  .sort((a, b) => a[0] - b[0])
+                  .map(x => x[1]);
+              }
 
-    .card {
-      background: #ffffff; /* white background */
-      padding: 1rem 1.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-      font-size: 1.1rem;
-      color: #444;
-      transition: transform 0.2s, box-shadow 0.2s, opacity 0.25s;
-      box-sizing: border-box;
-      opacity: 0;
-      transform: translateY(10px);
-    }
+              function render() {
+                colLeft.innerHTML = colRight.innerHTML = "";
 
-    .card.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+                const visible = showAll ? currentOrder : currentOrder.slice(0, 6);
 
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-    }
+                visible.forEach((text, i) => {
+                  const card = document.createElement("div");
+                  card.className = "card";
+                  card.textContent = text;
 
-    .button {
-      margin-top: 2rem;
-      padding: 0.6rem 1.5rem;
-      font-size: 1rem;
-      background: #8b5cf6;
-      color: white;
-      border: none;
-      border-radius: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
-      transition: background 0.2s;
-      font-family: "Fira Sans", sans-serif;
-      font-weight: 500;
-    }
+                  // pick shorter column (fallback to left on stacked layout)
+                  const grid = document.querySelector(".grid");
+                  const target =
+                    getComputedStyle(grid).flexDirection === "column" ||
+                    colLeft.scrollHeight <= colRight.scrollHeight
+                      ? colLeft
+                      : colRight;
 
-    .button:hover { background: #7c3aed; }
+                  target.appendChild(card);
 
-    .shuffle-button {
-      position: fixed;
-      top: 2rem;
-      right: 2rem;
-      padding: 0.6rem 1.2rem;
-      font-size: 0.95rem;
-      background: #22c55e;
-      color: white;
-      border: none;
-      border-radius: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
-      transition: background 0.2s;
-      font-family: "Fira Sans", sans-serif;
-      font-weight: 500;
-      z-index: 1000;
-    }
+                  setTimeout(() => card.classList.add("show"), 20 + i * 45);
+                });
 
-    .shuffle-button:hover { background: #16a34a; }
+                toggleButton.textContent = showAll ? "Hide" : "Expand";
+              }
 
-    @media (max-width: 500px) {
-      .shuffle-button { position: static; margin-top: 1rem; }
-    }
-  </style>
-</head>
-<body>
-  <h1>Hey, I'm Zin 👋</h1>
-  <p class="intro">
-    Welcome to my status archive! More on this site coming soon... (unless I procrastinate)
-  </p>
+              toggleButton.onclick = () => {
+                showAll = !showAll;
+                render();
+              };
 
-  <!-- two columns: JS will put cards into the shorter column to simulate masonry -->
-  <div class="grid" id="statusGrid">
-    <div class="col" id="colLeft"></div>
-    <div class="col" id="colRight"></div>
-  </div>
+              shuffleButton.onclick = () => {
+                currentOrder = shuffle(statuses);
+                render();
+              };
 
-  <button class="button" id="toggleButton">Expand</button>
-  <button class="shuffle-button" id="shuffleButton">Shuffle</button>
+              // initial render
+              render();
 
-  <script>
-    const statuses = [
-      "Mending a mirror of your own beliefs...",
-      "Fulfilling the backwards lie...",
-      "Providing a common enemy...",
-      "Back in time...",
-      "Restarting something that never stopped...",
-      "When you don't want the horse to be dead...",
-      "To create fiction you wish to be a reflection...",
-      "The hardest thing you work for is regret…",
-      "Peace is made, not found...",
-      "The loudest thing you hear is your echo...",
-      "When you don't want the horse to be dead…",
-      "Pushing against yourself pushes others away...",
-      "The greatest fight is against yourself...",
-      "The existence of nothing is the hardest to accept...",
-      "The smallest things that make you stop...",
-      "The biggest change is the lack of something...",
-      "The outlier is the one that wants others to follow...",
-      "The length one goes through not to be underestimated...",
-      "Changing is simply a matter of nuances...",
-      "What defines a life worth living...",
-      "Actions can have delayed responses...",
-      "To wrong is not to be wronged against...",
-      "All methods in which is impractical...",
-      "Over the above under...",
-      "The symbolism of symbols...",
-      "Phophecy is not the epitome nor an epiphany...",
-      "The perspectives of ethicality...",
-      "People who see arent meant to be seen...",
-      "To be someone who hasn't been themselves…"
-    ];
-
-    const colLeft = document.getElementById('colLeft');
-    const colRight = document.getElementById('colRight');
-    const toggleButton = document.getElementById('toggleButton');
-    const shuffleButton = document.getElementById('shuffleButton');
-
-    let showAll = false;
-    // keep a current order so Expand/Hide shows the same set until reshuffle
-    let currentOrder = statuses.slice();
-
-    // Non-mutating Fisher-Yates shuffle (returns new array)
-    function shuffleArray(arr) {
-      const copy = arr.slice();
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
-      }
-      return copy;
-    }
-
-    // create a card element
-    function makeCard(text, delayIndex) {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.textContent = text;
-      // use a slight stagger for reveal
-      setTimeout(() => card.classList.add('show'), 20 + delayIndex * 45);
-      return card;
-    }
-
-    // returns the column element with the smaller height (to balance)
-    function shorterColumn() {
-      // on very small screens columns stack; fallback to left
-      if (getComputedStyle(document.querySelector('.grid')).flexDirection === 'column') {
-        return colLeft;
-      }
-      // use scrollHeight to measure contents
-      return (colLeft.scrollHeight <= colRight.scrollHeight) ? colLeft : colRight;
-    }
-
-    function clearColumns() {
-      colLeft.innerHTML = '';
-      colRight.innerHTML = '';
-    }
-
-    function render() {
-      clearColumns();
-      const visible = showAll ? currentOrder : currentOrder.slice(0, 6);
-
-      // append each card to the currently shorter column for masonry balance
-      visible.forEach((text, i) => {
-        const card = makeCard(text, i);
-        shorterColumn().appendChild(card);
-      });
-
-      toggleButton.textContent = showAll ? 'Hide' : 'Expand';
-    }
-
-    toggleButton.addEventListener('click', () => {
-      showAll = !showAll;
-      render();
-    });
-
-    shuffleButton.addEventListener('click', () => {
-      currentOrder = shuffleArray(statuses);
-      render();
-    });
-
-    // initialize
-    currentOrder = shuffleArray(statuses);
-    render();
-
-    // On window resize, re-render to rebalance columns
-    window.addEventListener('resize', () => {
-      // small debounce
-      clearTimeout(window._zinResize);
-      window._zinResize = setTimeout(render, 120);
-    });
-  </script>
-</body>
+              // debounce resize
+              let resizeTimer;
+              window.onresize = () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(render, 120);
+              };
+        </script>
+    </body>
 </html>
