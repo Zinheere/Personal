@@ -8,6 +8,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap');
 
+    /* page */
     body {
       margin: 0;
       font-family: "Fira Sans", sans-serif;
@@ -36,13 +37,21 @@
       margin-bottom: 2rem;
     }
 
-    /* Masonry layout using CSS columns */
+    /* masonry using CSS columns (2 columns on wide screens) */
     .grid {
       column-count: 2;
       column-gap: 1rem;
-      max-width: 800px;
+      max-width: 1100px; /* increase so 2 columns have room on bigger screens */
       width: 100%;
-      column-fill: auto; /* helps columns fill predictably */
+      column-fill: auto; /* attempt to distribute content predictably */
+      /* outline: 1px dashed rgba(0,0,0,0.06);  <-- enable to debug container width */
+    }
+
+    @media (max-width: 1100px) {
+      /* keeps two columns for medium screens, but switch to 1 at small widths */
+      .grid {
+        column-count: 2;
+      }
     }
 
     @media (max-width: 768px) {
@@ -52,26 +61,27 @@
     }
 
     .card {
-      background: #ffffff; /* white background for cards */
+      background: #ffffff; /* white background */
       padding: 1rem 1.5rem;
       border-radius: 1rem;
       box-shadow: 0 4px 8px rgba(0,0,0,0.08);
       font-size: 1.1rem;
       color: #444;
       transition: transform 0.2s, box-shadow 0.2s;
-      margin-bottom: 1rem;
+      margin: 0 0 1rem 0;
 
-      /* Masonry-friendly rules */
-      display: inline-block;               /* plays nicely in column layout */
-      width: 100%;                         /* fill the column width */
-      box-sizing: border-box;              /* include padding in width */
-      break-inside: avoid-column;          /* modern browsers */
-      -webkit-column-break-inside: avoid;  /* Safari / WebKit */
-      -moz-column-break-inside: avoid;     /* older Firefox */
-      page-break-inside: avoid;            /* printing fallback */
+      /* IMPORTANT: make cards behave properly inside columns */
+      display: inline-block;           /* allow column flow */
+      vertical-align: top;             /* avoid baseline spacing that can collapse columns */
+      width: 100%;                     /* fill the column's width */
+      box-sizing: border-box;          /* include padding in width */
+      break-inside: avoid-column;      /* prevent splitting across columns */
+      -webkit-column-break-inside: avoid;
+      -moz-column-break-inside: avoid;
+      page-break-inside: avoid;
 
       opacity: 0;
-      animation: fadeIn 0.6s ease forwards;
+      animation: fadeIn 0.45s ease forwards;
     }
 
     .card:hover {
@@ -105,11 +115,8 @@
       font-weight: 500;
     }
 
-    .button:hover {
-      background: #7c3aed;
-    }
+    .button:hover { background: #7c3aed; }
 
-    /* Fixed green shuffle button */
     .shuffle-button {
       position: fixed;
       top: 1rem;
@@ -128,15 +135,10 @@
       z-index: 1000;
     }
 
-    .shuffle-button:hover {
-      background: #16a34a;
-    }
+    .shuffle-button:hover { background: #16a34a; }
 
     @media (max-width: 500px) {
-      .shuffle-button {
-        position: static;
-        margin-top: 1rem;
-      }
+      .shuffle-button { position: static; margin-top: 1rem; }
     }
   </style>
 </head>
@@ -190,20 +192,24 @@
     let showAll = false;
 
     function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
+      // non-mutating shuffle: return a new shuffled copy
+      const copy = array.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [copy[i], copy[j]] = [copy[j], copy[i]];
       }
-      return array;
+      return copy;
     }
+
+    let currentOrder = statuses.slice();
 
     function render() {
       grid.innerHTML = "";
-      const visibleStatuses = showAll ? statuses : statuses.slice(0, 6);
+      const visibleStatuses = showAll ? currentOrder : currentOrder.slice(0, 6);
       visibleStatuses.forEach((status, index) => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.animationDelay = `${index * 0.05}s`; // stagger fade-in
+        card.style.animationDelay = `${index * 0.05}s`;
         card.textContent = status;
         grid.appendChild(card);
       });
@@ -216,11 +222,12 @@
     });
 
     shuffleButton.addEventListener("click", () => {
-      shuffle(statuses);
+      currentOrder = shuffle(statuses);
       render();
     });
 
-    shuffle(statuses);
+    // initialize
+    currentOrder = shuffle(statuses);
     render();
   </script>
 </body>
