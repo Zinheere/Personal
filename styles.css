@@ -52,26 +52,32 @@ p.intro {
 .holder {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 1rem; /* space between buttons */
 }
 
-.socials {
-    position: fixed;
-    top: 50%;
-    right: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    transform: translateY(-50%);
+.social-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    background: #8b5cf6;
+    border-radius: 50%;
+    box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .social-button img {
-    width: 50px;
-    height: 50px;
-    transition: transform 0.2s;
+    width: 50%;
+    height: 50%;
 }
 
-.social-button:hover img {
-    transform: scale(1.1);
+.social-button:hover {
+    background: #7c3aed;
+    transform: translateY(-2px);
 }
 
 @media (max-width: 600px) {
