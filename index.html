@@ -36,40 +36,29 @@
       margin-bottom: 2rem;
     }
 
-    /* Masonry layout */
+    /* Replace column layout with CSS Grid */
     .grid {
-      column-count: 2;
-      column-gap: 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
       max-width: 800px;
       width: 100%;
-      column-fill: auto; /* helps columns fill predictably */
     }
 
     @media (max-width: 768px) {
       .grid {
-        column-count: 1;
+        grid-template-columns: 1fr; /* single column on small screens */
       }
     }
 
     .card {
-      background: #fff;
-      padding: 1rem 1.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-      font-size: 1.1rem;
-      color: #444;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin-bottom: 1rem;
-
-      /* Fix overlapping in multi-column layout */
-      display: inline-block;
+      display: block;
       width: 100%;
       box-sizing: border-box;
-      break-inside: avoid-column;
-      -webkit-column-break-inside: avoid;
-      -moz-column-break-inside: avoid;
-      page-break-inside: avoid;
-
+      margin: 0;         /* grid gap handles spacing */
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
       opacity: 0;
       animation: fadeIn 0.6s ease forwards;
     }
