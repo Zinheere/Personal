@@ -16,17 +16,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       min-height: 100vh;
       padding: 2rem;
-      position: relative;
     }
+
     h1 {
       font-size: 2.5rem;
       font-weight: bold;
       color: #333;
       margin-bottom: 0.5rem;
     }
+
     p.intro {
       max-width: 600px;
       text-align: center;
@@ -34,19 +35,21 @@
       color: #555;
       margin-bottom: 2rem;
     }
+
+    /* Masonry layout */
     .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
+      column-count: 2;
+      column-gap: 1rem;
       max-width: 800px;
       width: 100%;
-      font-weight: 400;
     }
-    @media (min-width: 768px) {
+
+    @media (max-width: 768px) {
       .grid {
-        grid-template-columns: 1fr 1fr;
+        column-count: 1;
       }
     }
+
     .card {
       background: #fff;
       padding: 1rem 1.5rem;
@@ -54,10 +57,15 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       font-size: 1.1rem;
       color: #444;
+      font-weight: 500;
       transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 1rem;
+      display: inline-block; /* Needed for masonry */
+      width: 100%;
       opacity: 0;
       animation: fadeIn 0.6s ease forwards;
     }
+
     .card:hover {
       transform: translateY(-4px);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
@@ -88,13 +96,14 @@
       font-family: "Fira Sans", sans-serif;
       font-weight: 500;
     }
+
     .button:hover {
       background: #7c3aed;
     }
 
-    /* Green shuffle button */
+    /* Fixed green shuffle button */
     .shuffle-button {
-      position: absolute;
+      position: fixed;
       top: 1rem;
       right: 1rem;
       padding: 0.6rem 1.2rem;
@@ -108,7 +117,9 @@
       transition: background 0.2s;
       font-family: "Fira Sans", sans-serif;
       font-weight: 500;
+      z-index: 1000;
     }
+
     .shuffle-button:hover {
       background: #16a34a;
     }
@@ -177,7 +188,7 @@
       visibleStatuses.forEach((status, index) => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.animationDelay = `${index * 0.05}s`; // slight stagger
+        card.style.animationDelay = `${index * 0.05}s`; // stagger fade-in
         card.textContent = status;
         grid.appendChild(card);
       });
