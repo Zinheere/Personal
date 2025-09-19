@@ -11,35 +11,35 @@ body {
     align-items: center;
     justify-content: center; /* center vertically */
     min-height: 100vh;
-    padding: 2rem; /* equal spacing all around */
+    padding: 2%; /* equal spacing */
     text-align: center; /* center text */
 }
 
 h1 {
-    font-size: 3.5rem; /* bigger heading */
+    font-size: 6vw; /* scale heading with viewport width */
     font-weight: bold;
     color: #333;
-    margin: 0 0 1rem 0;
+    margin: 0 0 1vh 0;
 }
 
 p.intro {
-    max-width: 700px;
-    font-size: 1.4rem; /* larger intro text */
+    max-width: 70vw; /* take around 70% of viewport width */
+    font-size: 2vw; /* scale font with viewport width */
     color: #555;
-    margin-bottom: 2rem;
+    margin-bottom: 2vh;
 }
 
 /* archive button */
 .button {
-    margin-top: 1rem;
-    padding: 1rem 2.5rem; /* larger button */
-    font-size: 1.25rem; /* bigger font */
+    margin-top: 1vh;
+    padding: 1vh 2vw; /* scale padding */
+    font-size: 1.5vw; /* scale button font */
     background: #8b5cf6;
     color: white;
     border: none;
-    border-radius: 2rem;
+    border-radius: 2vh;
     cursor: pointer;
-    box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0.6vh 1.4vh rgba(139, 92, 246, 0.3);
     transition: background 0.2s, transform 0.2s;
     font-family: "Fira Sans", sans-serif;
     font-weight: 600;
@@ -47,7 +47,7 @@ p.intro {
 
 .button:hover {
     background: #7c3aed;
-    transform: translateY(-2px);
+    transform: translateY(-0.2vh);
 }
 
 .holder {
@@ -57,13 +57,14 @@ p.intro {
 
 @media (max-width: 600px) {
     h1 {
-        font-size: 2.5rem;
+        font-size: 8vw;
     }
     p.intro {
-        font-size: 1.1rem;
+        font-size: 3.5vw;
+        max-width: 90vw;
     }
     .button {
-        font-size: 1.1rem;
-        padding: 0.8rem 2rem;
+        font-size: 4vw;
+        padding: 2vw 4vw;
     }
 }
