@@ -83,6 +83,10 @@ p.intro {
     transform: translateY(-2px);
 }
 
+.mobile{
+    display: none;
+}
+
 /* Responsive for smaller screens */
 @media (max-width: 600px) {
     .button,
@@ -91,8 +95,13 @@ p.intro {
         font-size: 1.2rem;
         width: 3.5rem; /* ensures circular buttons scale down */
     }
-
     .button {
         padding: 0 1rem;
+    }
+    .desktop {
+        display: none;
+    }
+    .mobile {
+        display: flex;
     }
 }
