@@ -10,23 +10,17 @@
     <body>
         <h1>Hey, I'm Zin 👋</h1>
         <p class="intro">
-            <b>Hello, my name is Zinheere (zihn-here)</b><br>
-            I live Australia & have <i>many</i> interests.<br>
-            Thanks for visiting my site!<br>
-            Discord: @zinheere<br><br>
-            <b>Current phase: 3D Printing 🖨️</b>
+            <b>Hello, my name is Zinheere</b> <i>(zihn-here)</i><br>
+            I'm based in Australia, passionate about tech, creativity, and making things.<br>
+            Currently into: <b>3D Printing 🖨️</b><br><br>
+            Feel free to reach out through any of the links below!
         </p>
         <div class="holder">
-            <button class="button desktop" onclick="location.href='archive.html'">
-                Statuses 📜
-            </button>
-            <button class="button mobile" onclick="location.href='archive.html'">
-                📜
-            </button>
             <a
                 href="https://github.com/Zinheere"
                 target="_blank"
                 class="social-button"
+                title="GitHub"
             >
                 <img src="images/github.png" alt="Github" />
             </a>
@@ -34,8 +28,18 @@
                 href="https://www.youtube.com/channel/UC_UxX2QrgFn0xA6ifPXzJ0w"
                 target="_blank"
                 class="social-button"
+                title="YouTube"
             >
                 <img src="images/youtube.png" alt="YouTube" />
+            </a>
+            <a
+                href="#"
+                class="social-button"
+                title="Discord: @zinheere"
+                id="discordBtn"
+                onclick="navigator.clipboard.writeText('@zinheere').then(() => { this.setAttribute('title','Copied! ✓'); setTimeout(() => this.setAttribute('title','Discord: @zinheere'), 2000); }).catch(() => this.setAttribute('title','Discord: @zinheere (copy failed)')); return false;"
+            >
+                <img src="images/discord.svg" alt="Discord" />
             </a>
         </div>
     </body>
