@@ -4,74 +4,80 @@ body {
     margin: 0;
     font-family: "Fira Sans", sans-serif;
     font-weight: 500;
-    background: linear-gradient(to bottom, #e6cfff, #ffffff);
+    background: linear-gradient(135deg, #e6cfff 0%, #c4b5fd 50%, #f0e6ff 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding: 2rem;
     text-align: center;
+    box-sizing: border-box;
 }
 
 h1 {
-    font-size: 7rem;
+    font-size: clamp(3rem, 10vw, 7rem);
     font-weight: bold;
-    color: #333;
+    color: #2e1065;
     margin: 0 0 1rem 0;
 }
 
 p.intro {
     max-width: 700px;
-    font-size: 2rem;
-    color: #555;
+    font-size: clamp(1.1rem, 3.5vw, 2rem);
+    color: #4c1d95;
     margin-top: 1rem;
     margin-bottom: 3.5rem;
+    line-height: 1.7;
 }
 
 .holder {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem; /* space between buttons */
-    flex-wrap: wrap; /* keeps buttons aligned on small screens */
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-/* Common button styles */
+/* Liquid glass effect for all buttons */
 .button,
 .social-button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    height: 4rem; /* uniform height */
-    min-width: 4rem; /* ensures social buttons are not too small */
-    padding: 0 1.5rem; /* horizontal padding for text button */
+    height: 4rem;
+    min-width: 4rem;
+    padding: 0 1.5rem;
     font-size: 1.5rem;
-    background: #8b5cf6;
-    color: white;
-    border: none;
-    box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
-    transition: background 0.2s, transform 0.2s;
+    background: rgba(255, 255, 255, 0.28);
+    color: #3b0764;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7),
+                inset 0 -1px 0 rgba(139, 92, 246, 0.15);
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
     font-family: "Fira Sans", sans-serif;
     font-weight: 600;
     cursor: pointer;
-    text-decoration: none; /* for social links */
+    text-decoration: none;
 }
 
 /* Main button roundness */
 .button {
-    border-radius: 2rem; /* pill shape */
+    border-radius: 2rem;
 }
 
 /* Social buttons */
 .social-button {
-    width: 4rem; /* ensures perfect circle */
-    border-radius: 50%; /* fully circular */
-    padding: 0; /* no extra padding */
+    width: 4rem;
+    border-radius: 50%;
+    padding: 0;
 }
 
-.social-button img {
+.social-button img,
+.social-button svg {
     width: 50%;
     height: 50%;
 }
@@ -79,29 +85,17 @@ p.intro {
 /* Hover effects */
 .button:hover,
 .social-button:hover {
-    background: #7c3aed;
-    transform: translateY(-2px);
-}
-
-.mobile{
-    display: none;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(139, 92, 246, 0.2);
+    transform: translateY(-3px);
 }
 
 /* Responsive for smaller screens */
 @media (max-width: 600px) {
-    .button,
     .social-button {
         height: 3.5rem;
-        font-size: 1.2rem;
-        width: 3.5rem; /* ensures circular buttons scale down */
-    }
-    .button {
-        padding: 0 1rem;
-    }
-    .desktop {
-        display: none;
-    }
-    .mobile {
-        display: flex;
+        width: 3.5rem;
     }
 }
