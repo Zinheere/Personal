@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/png" href="images/webicon.png" />
+        <link rel="icon" type="image/png" href="images/seasonal-logo.png" />
         <link rel="stylesheet" type="text/css" href="styles.css" />
         <title>Who is Zinheere?</title>
     </head>
@@ -57,5 +57,24 @@
                 </svg>
             </a>
         </div>
+        <script>
+            const page = document.body;
+            let pointerX = 50;
+            let pointerY = 50;
+            let frame;
+
+            window.addEventListener("pointermove", (event) => {
+                pointerX = (event.clientX / window.innerWidth) * 100;
+                pointerY = (event.clientY / window.innerHeight) * 100;
+
+                if (!frame) {
+                    frame = requestAnimationFrame(() => {
+                        page.style.setProperty("--pointer-x", `${pointerX}%`);
+                        page.style.setProperty("--pointer-y", `${pointerY}%`);
+                        frame = undefined;
+                    });
+                }
+            }, { passive: true });
+        </script>
     </body>
 </html>

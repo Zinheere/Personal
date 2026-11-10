@@ -1,10 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap");
 
 body {
+    --pointer-x: 50%;
+    --pointer-y: 50%;
+    position: relative;
+    isolation: isolate;
+    overflow-x: hidden;
     margin: 0;
     font-family: "Fira Sans", sans-serif;
     font-weight: 500;
-    background: linear-gradient(135deg, #e6cfff 0%, #c4b5fd 50%, #f0e6ff 100%);
+    background: #d8c6f4;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,6 +18,58 @@ body {
     padding: 2rem;
     text-align: center;
     box-sizing: border-box;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+body::before {
+    z-index: -2;
+    background:
+        radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255, 255, 255, 0.62) 0, rgba(255, 255, 255, 0.16) 14rem, transparent 34rem),
+        radial-gradient(circle at 8% 12%, rgba(214, 125, 255, 0.7), transparent 38%),
+        radial-gradient(circle at 90% 82%, rgba(121, 169, 255, 0.65), transparent 42%),
+        linear-gradient(135deg, #e8cfff 0%, #c6b8f5 48%, #d7e2ff 100%);
+    filter: saturate(115%);
+    animation: background-drift 18s ease-in-out infinite alternate;
+    transition: background 0.3s ease-out;
+}
+
+body::after {
+    z-index: -1;
+    background:
+        linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.16) 45%, transparent 70%),
+        radial-gradient(ellipse at center, transparent 42%, rgba(76, 29, 149, 0.14) 100%);
+    background-size: 180% 180%, 100% 100%;
+    animation: light-sweep 16s ease-in-out infinite alternate;
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes background-drift {
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+    to {
+        transform: scale(1.08) rotate(2deg);
+    }
+}
+
+@keyframes light-sweep {
+    from {
+        background-position: 0% 50%, center;
+    }
+    to {
+        background-position: 100% 50%, center;
+    }
 }
 
 h1 {
