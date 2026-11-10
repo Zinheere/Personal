@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap");
 
 body {
-    --pointer-x: 50%;
-    --pointer-y: 50%;
     position: relative;
     isolation: isolate;
     overflow-x: hidden;
@@ -31,13 +29,11 @@ body::after {
 body::before {
     z-index: -2;
     background:
-        radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(255, 255, 255, 0.62) 0, rgba(255, 255, 255, 0.16) 14rem, transparent 34rem),
         radial-gradient(circle at 8% 12%, rgba(214, 125, 255, 0.7), transparent 38%),
         radial-gradient(circle at 90% 82%, rgba(121, 169, 255, 0.65), transparent 42%),
         linear-gradient(135deg, #e8cfff 0%, #c6b8f5 48%, #d7e2ff 100%);
     filter: saturate(115%);
     animation: background-drift 18s ease-in-out infinite alternate;
-    transition: background 0.3s ease-out;
 }
 
 body::after {
@@ -54,12 +50,77 @@ body > * {
     z-index: 1;
 }
 
+.ambient-background {
+    position: fixed;
+    inset: -18%;
+    overflow: hidden;
+    pointer-events: none;
+    filter: blur(28px) saturate(125%);
+    opacity: 0.78;
+}
+
+body > .ambient-background {
+    z-index: -1;
+}
+
+.ambient-orb {
+    --orb-x: 0px;
+    --orb-y: 0px;
+    position: absolute;
+    width: 42vw;
+    height: 42vw;
+    min-width: 24rem;
+    min-height: 24rem;
+    border-radius: 48% 52% 64% 36% / 42% 38% 62% 58%;
+    transform: translate3d(var(--orb-x), var(--orb-y), 0);
+    transition: transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    animation: orb-morph 14s ease-in-out infinite alternate;
+}
+
+.ambient-orb--pink {
+    top: -12%;
+    left: -8%;
+    background: rgba(224, 106, 255, 0.55);
+}
+
+.ambient-orb--blue {
+    right: -12%;
+    bottom: -18%;
+    background: rgba(91, 157, 255, 0.58);
+    animation-delay: -5s;
+}
+
+.ambient-orb--violet {
+    top: 28%;
+    left: 36%;
+    width: 30vw;
+    height: 30vw;
+    min-width: 18rem;
+    min-height: 18rem;
+    background: rgba(157, 113, 255, 0.4);
+    animation-delay: -9s;
+}
+
 @keyframes background-drift {
     from {
         transform: scale(1) rotate(0deg);
     }
     to {
         transform: scale(1.08) rotate(2deg);
+    }
+}
+
+@keyframes orb-morph {
+    0% {
+        border-radius: 48% 52% 64% 36% / 42% 38% 62% 58%;
+        margin: 0;
+    }
+    50% {
+        border-radius: 67% 33% 42% 58% / 58% 64% 36% 42%;
+    }
+    100% {
+        border-radius: 38% 62% 54% 46% / 64% 42% 58% 36%;
+        margin: 2rem -1rem;
     }
 }
 

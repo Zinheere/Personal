@@ -8,6 +8,11 @@
         <title>Who is Zinheere?</title>
     </head>
     <body>
+        <div class="ambient-background" aria-hidden="true">
+            <span class="ambient-orb ambient-orb--pink" data-depth="0.35"></span>
+            <span class="ambient-orb ambient-orb--blue" data-depth="-0.25"></span>
+            <span class="ambient-orb ambient-orb--violet" data-depth="0.18"></span>
+        </div>
         <h1>Hey, I'm Zin 👋</h1>
         <p class="intro">
             <b>Hello, my name is Zinheere (zihn-here)</b><br>
@@ -59,18 +64,22 @@
         </div>
         <script>
             const page = document.body;
-            let pointerX = 50;
-            let pointerY = 50;
+            const orbs = document.querySelectorAll(".ambient-orb");
+            let pointerX = 0;
+            let pointerY = 0;
             let frame;
 
             window.addEventListener("pointermove", (event) => {
-                pointerX = (event.clientX / window.innerWidth) * 100;
-                pointerY = (event.clientY / window.innerHeight) * 100;
+                pointerX = event.clientX - window.innerWidth / 2;
+                pointerY = event.clientY - window.innerHeight / 2;
 
                 if (!frame) {
                     frame = requestAnimationFrame(() => {
-                        page.style.setProperty("--pointer-x", `${pointerX}%`);
-                        page.style.setProperty("--pointer-y", `${pointerY}%`);
+                        orbs.forEach((orb) => {
+                            const depth = Number(orb.dataset.depth);
+                            orb.style.setProperty("--orb-x", `${pointerX * depth}px`);
+                            orb.style.setProperty("--orb-y", `${pointerY * depth}px`);
+                        });
                         frame = undefined;
                     });
                 }
